@@ -1,0 +1,132 @@
+CSN150 Presentation: Install Wireshark onto Raspberry Pi
+
+Installing wireshark on to a raspberry pi to check what websites users are browsing on that are connected to your pi.
+This is to gather information
+
+
+# Starting Up
+Step 1 - Download the raspberry pi imager
+Step 2 - Grab an sd card reader, sd card and adapter
+Step 3 - Put the sd card into the sd card adapter and enter it into the sd card reader
+Step 4 - Enter the sd card reader into your laptop, desktop, or other device
+Step 5 - Open up the raspberry pi imager and click on the "choose os"
+Step 6 - Click the second option that saids "Raspberry Pi OS(other" and double tap "Raspberry Pi OS lite(32-bit)"
+Step 7 - Then click on "choose storage" button 
+Step 8 - After click on the usb port that has the sd card in it
+Step 9 - Click on the gear button on the bottom right corner
+
+
+## Configuring Settings on The Imager
+
+Step 10 - Click on the "set hostname" box
+Step 11 - You can edit the hostname to what you want (WRITE THIS DOWN)
+Step 12 - Click "enable SSH" box
+Step 13 - You can edit your username & password (WRITE THIS DOWN, WILL NEED TO KNOW FOR LATER)
+Step 14 - After finishing that click on "Configure Wireless LAN
+Step 15 - On the "SSID" type up the name of your WiFi
+Step 16 - Then for the "password" line type up the password of your WiFi
+Step 17 - Click on the "save" button 
+Step 18 - Finally, click on the "Write" button on the right side
+
+
+### Being Able to Get SSH (This allows you to log into the Raspberry Pi with a secure connection over an unsecure network)
+
+Step 19 - After the writing is complete take out your sd card reader
+Step 20 - Then enter into your device again
+Step 21 - Click on folders on your laptop
+Step 22 - Look for the sd card in your folders
+Step 23 - After double click on notepad
+Step 24 - Leave the notepad empty and click on "file"
+Step 25 - Then click on "save as"
+Step 26 - Name the file "ssh" and save it onto your sd card
+You will know be able to get SSH access on the Raspberry Pi which is important for this project
+
+#### Find Your Raspberry Pi's IP Address/ Log In To Your Router
+
+Step 27 - Open up command prompt
+Step 28 - Type "ipconfig" and press enter
+Step 29 - Look for your "Default Gateway" address
+Step 30 - Write down or copy your Default Gateway
+Step 31 - Open up one of your browsers
+Step 32 - Enter the Default Gateway in the url search 
+Step 33 - A prompt will come up asking you to enter the username & password
+The username is usually "admin" & the passwords are usually "password", "password1", or the serial number on your router
+Step 34 - Type "admin" for the username & for password type one of those 3 passwords
+Step 35 - After gaining access to your router looked for a "device" or "attached devices" tab
+Step 36 - Scroll down until you find the username of your Raspberry Pi
+Step 37 - Copy the Raspberry Pi's IP address (Write down IP address)
+
+##### Gain SSH Access On The Raspberry Pi
+
+Step 38 - Open command prompt or terminal
+Step 39 - Type "ssh username@Raspberry Pi IP address" (Username is the name you gave the Pi or left the same)
+Now the hostname should change reflecting that you're logged into your Raspberry Pi
+
+###### Download VNC Viewer
+
+Step 40 - https://www.realvnc.com/en/connect/download/viewer/
+Step 41 - Download the correct version of this link to your corresponding computer
+Step 42 - When the download is comlete it will open up a VNC window
+Step 43 - In this window we can search for devices just like the internet
+This will give the Raspberry a GUI
+Step 44 - Type "sudo apt-get update" & press enter
+Step 45 - Type "sudo apt-get install realvnc-vnc-server" & press enter
+Step 46 - Type "sudo raspi-config" & press enter
+Step 47 - A window will pop up. Move down with the Down button, press enter on "Interface Options" 
+Step 48 - Press down until you reach "VNC" and press enter
+Step 49 - Enable it by pressing enter on "yes"
+Step 50 - Press enter on "Interface Options"
+Step 51 - Go down to "SSH" and press enter
+Step 52 - Then press enter on "yes" to enable SSH
+
+####### Getting into VNC GUI
+
+This will allow you to get on the command prompt & input commans through a GUI of the Raspberry Pi
+Step 53 - Open up the VNC Viewer app
+Step 54 - Type the IP address of your Raspberry Pi on the search bar at the top
+Step 55 - Enter the username & password when you configured your Pi & press enter
+
+######## Inputting Commands to Get Wireshark
+
+Step 56 - Click on the command prompt on the GUI
+Step 57 - Type "sudo apt-get update && sudo apt-get upgrade -y" & press enter
+Step 58 - Type "sudo apt-get install wireshark" & press enter
+Step 59 - The command prompt will ask you for input type "y" & press enter then on the window press enter on "no"
+Step 60 - Type "sudo groupadd wireshark" & press enter
+Step 61 - Type "sudo usermod -a -G wireshark pi" & press enter
+Step 62 - Type "sudo chgrp wireshark /usr/bin/dumpcap" & press enter
+Step 63 - Type "sudo chmod 750 /usr/bin/dumpcap" & press enter
+Step 64 - Type "ls -al /usr/bin/dumpcap" & press enter
+Step 65 - Type "sudo setcap cap_net_raw,cap_net_admin=eip /usr/bin/dumpcap" & press enter
+Step 66 - Type "sudo getcap /usr/bin/dumpcap" & press enter
+Step 67 - Type "wireshark" & press enter
+Step 68 - Now the Wireshark app will open on a new window in the VNC viewer
+Now you can experiment on wireshark and see for yourself what information you are able to capture on there.
+
+
+################# Commands For Problems Encountered During This ##################
+
+Problem 1: "REMOTE HSOT IDENTIFICATION HAS CHANGED!" Error trying to ssh into Raspberry Pi
+Step 1 - Type "ssh-keygen -R Raspberry IP address" & press enter
+
+Problem 2: Not being able to initiate packet capture on Wireshark while using VNC viewer
+Step 1 - Type "sudo dpkg-reconfigure wireshark-common" & press enter 
+Step 2 - Type "sudo chmod +x /usr/bin/dumpcap" & press enter
+Step 3 - Open up Wireshark again on the VNC viewer & it should be working.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
